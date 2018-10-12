@@ -10,15 +10,17 @@ class Xbot007(APKPlugin):
     def run(self, module):
         if self.apk is None:
             return None
-
-        for s in self.vm.get_strings():
+        strings = []
+        for vm in self.vm:
+            strings.extend(vm.get_strings())
+        for s in strings:
             if 'xbot007' in s.lower().translate(None, '#%'):
                 break
         else:
             return None
 
         php_end = None
-        for string in self.vm.get_strings():
+        for string in strings:
             if string.endswith('.php'):
                 php_end = string
 
@@ -29,7 +31,10 @@ class Xbot007(APKPlugin):
         hostname = self.apk.get_android_resources().get_string(self.apk.get_package(), 'domain2')
         if hostname:
             host.append(hostname[1])
-        for cls in self.vm.get_classes():
+        classes = []
+        for vm in self.vm:
+            classes.extend(vm.get_classes())
+        for cls in classes:
             # There has to be a better method to do THIS
             if len(cls.get_methods()) == 1 and\
                 cls.get_methods()[0].name == '<clinit>' and\

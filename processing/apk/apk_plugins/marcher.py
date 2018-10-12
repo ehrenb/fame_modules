@@ -14,13 +14,17 @@ class Marcher(APKPlugin):
 
         if variable is None:
             return None
-
+        proto = False
         for path in variable.get_paths():
             # We get the method info using the payh idx
-            method = self.vm.CM.get_method_ref(path[1])
+            for vm in self.vm:
+                method = vm.CM.get_method_ref(path[1])
 
-            # Check for a specific prototype, we are looking for the method that sets 'default_json'
-            if method.get_descriptor() == '(Landroid/content/Context; Ljava/lang/String;)V':
+                # Check for a specific prototype, we are looking for the method that sets 'default_json'
+                if method.get_descriptor() == '(Landroid/content/Context; Ljava/lang/String;)V':
+                    proto = True
+                    break
+            if proto:
                 break
         # If we did not find any matching method, exit
         else:
@@ -36,20 +40,21 @@ class Marcher(APKPlugin):
         # Look for a call with a string literal as argument
         for method_call in method_calls:
             # Get the calling method object
-            src_method = self.vm.get_method_by_idx(method_call.get_src_idx())
-            # Get the method call position
-            pos = src_method.code.get_bc().off_to_pos(method_call.get_idx())
-            # Look at previous instruction
-            instruction = src_method.code.get_bc().get_instruction(pos - 1)
-            # If this is a string literal, we have our configuration
-            if instruction.get_name() == 'const-string':
-                result['overlays'] = json.loads(instruction.get_output()[4:].strip("' "))
+            for vm in self.vm:
+                src_method = vm.get_method_by_idx(method_call.get_src_idx())
+                # Get the method call position
+                pos = src_method.code.get_bc().off_to_pos(method_call.get_idx())
+                # Look at previous instruction
+                instruction = src_method.code.get_bc().get_instruction(pos - 1)
+                # If this is a string literal, we have our configuration
+                if instruction.get_name() == 'const-string':
+                    result['overlays'] = json.loads(instruction.get_output()[4:].strip("' "))
 
-                module.add_ioc(result['c2_urls'], ['marcher', 'c2'])
-                for overlay in result['overlays']:
-                    module.add_ioc(overlay['body'], ['marcher', 'webfake'])
+                    module.add_ioc(result['c2_urls'], ['marcher', 'c2'])
+                    for overlay in result['overlays']:
+                        module.add_ioc(overlay['body'], ['marcher', 'webfake'])
 
-                return json.dumps(result, indent=2)
+                    return json.dumps(result, indent=2)
 
         return None
 
@@ -58,11 +63,12 @@ class Marcher(APKPlugin):
         commands = []
         urls = []
 
-        for string in self.vm.get_strings():
-            if string.startswith("http"):
-                base_url = string
-            elif string.endswith(".php"):
-                commands.append(string)
+        for v in self.vm:
+            for string in v.get_strings():
+                if string.startswith("http"):
+                    base_url = string
+                elif string.endswith(".php"):
+                    commands.append(string)
 
         for command in commands:
             urls.append(base_url + command)

@@ -26,18 +26,19 @@ class MazaInBot(APKPlugin):
 
         for path in invisible_log.get_paths():
             # We get the method info using the payh idx
-            method = self.vm.CM.get_method_ref(path[1])
+            for vm in self.vm:
+                method = vm.CM.get_method_ref(path[1])
 
-            for path in bank_clients.get_paths():
-                method2 = self.vm.CM.get_method_ref(path[1])
+                for path in bank_clients.get_paths():
+                    method2 = vm.CM.get_method_ref(path[1])
 
-                if ((method.get_class_name() == method2.get_class_name()) and
-                   (method.get_name() == method2.get_name())):
-                    self.targets_class = method.get_class_name()
-                    self.targets_method = method.get_name()
-                    self.targets_proto = method.get_descriptor()
+                    if ((method.get_class_name() == method2.get_class_name()) and
+                       (method.get_name() == method2.get_name())):
+                        self.targets_class = method.get_class_name()
+                        self.targets_method = method.get_name()
+                        self.targets_proto = method.get_descriptor()
 
-                    return True
+                        return True
 
         return False
 
@@ -63,7 +64,10 @@ class MazaInBot(APKPlugin):
         if not self.find_targets_method():
             return None
 
-        for cls in self.vm.get_classes():
+        classes = []
+        for vm in self.vm:
+            classes.extend(vm.get_classes())
+        for cls in classes:
             if self.targets_class in cls.get_name():
                 self.targets_class = cls
                 break

@@ -8,15 +8,23 @@ class SandroRAT(APKPlugin):
     probable_name = "SandroRAT"
 
     def run(self, module):
-        for s in self.vm.get_strings():
-            if 'sandrorat' in s.lower() or 'droidjack' in s.lower():
+        rat = False
+        for v in self.vm:
+            for s in v.get_strings():
+                if 'sandrorat' in s.lower() or 'droidjack' in s.lower():
+                    rat = True
+                    break
+            if rat == True:
                 break
         else:
             return None
 
         c2 = []
         port = []
-        for cls in self.vm.get_classes():
+        classes = []
+        for v in self.vm:
+            classes.extend(vm.get_classes())
+        for cls in classes:
             if len(cls.get_fields()) == 3 and\
                 set(['a', 'b', 'c']) == set(map(lambda x: x.name, cls.get_fields())) and\
                 len(cls.get_methods()) == 1 and\

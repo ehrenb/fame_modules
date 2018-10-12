@@ -8,7 +8,10 @@ class AndroRAT(APKPlugin):
     probable_name = "AndroRAT"
 
     def run(self, module):
-        for cls in self.vm.get_classes():
+        classes = []
+        for vm in self.vm:
+            classes.extend(vm.get_classes())
+        for cls in classes:
             if 'Lmy/app/client/ProcessCommand;'.lower() in cls.get_name().lower():
                 self.process_class = cls
                 break

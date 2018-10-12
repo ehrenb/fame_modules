@@ -33,7 +33,10 @@ class Droidian(APKPlugin):
         return json.dumps({'c2': list(hosts)}, indent=2)
 
     def get_droidian_service(self):
-        for cls in self.vm.get_classes():
+        classes = []
+        for v in self.vm:
+            classes.extend(vm.get_classes())
+        for cls in classes:
             for field in cls.get_fields():
                 if field.name in ['backupURL', 'encodedURL']:
                     return cls
