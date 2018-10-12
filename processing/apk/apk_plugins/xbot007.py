@@ -42,7 +42,8 @@ class Xbot007(APKPlugin):
                 len(cls.get_fields()) < 10:
                 for inst in cls.get_methods()[0].get_instructions():
                     if inst.get_name() == 'const-string':
-                        host.append(inst.get_output().translate(None, '#%').split(',')[-1].strip("' "))
+                        to_remove_table = {ord(char): None for char in '#%'}
+                        host.append(inst.get_output().translate(to_remove_table).split(',')[-1].strip("' "))
         host = filter(lambda x: not x.endswith('.apk'), host)
         host = filter(lambda x: x, host)
         c2 = map(lambda h: ('http://' + h + '/' + php_end), host)
