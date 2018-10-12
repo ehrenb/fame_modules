@@ -1,6 +1,7 @@
 import json
 from . import APKPlugin
 
+to_remove_table = {ord(char): None for char in '#%'}
 
 class Xbot007(APKPlugin):
     name = "xbot007"
@@ -14,7 +15,7 @@ class Xbot007(APKPlugin):
         for vm in self.vm:
             strings.extend(vm.get_strings())
         for s in strings:
-            if 'xbot007' in s.lower().translate(None, '#%'):
+            if 'xbot007' in s.lower().translate(to_remove_table):
                 break
         else:
             return None
@@ -42,7 +43,6 @@ class Xbot007(APKPlugin):
                 len(cls.get_fields()) < 10:
                 for inst in cls.get_methods()[0].get_instructions():
                     if inst.get_name() == 'const-string':
-                        to_remove_table = {ord(char): None for char in '#%'}
                         host.append(inst.get_output().translate(to_remove_table).split(',')[-1].strip("' "))
         host = filter(lambda x: not x.endswith('.apk'), host)
         host = filter(lambda x: x, host)
