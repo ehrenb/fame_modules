@@ -35,7 +35,7 @@ class Droidian(APKPlugin):
     def get_droidian_service(self):
         classes = []
         for v in self.vm:
-            classes.extend(vm.get_classes())
+            classes.extend(v.get_classes())
         for cls in classes:
             for field in cls.get_fields():
                 if field.name in ['backupURL', 'encodedURL']:
