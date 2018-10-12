@@ -32,8 +32,9 @@ class APK(ProcessingModule):
             self.results['main_activity'] = apk.get_main_activity()
             self.results['receivers'] = apk.get_receivers()
             self.results['services'] = apk.get_services()
-            self.results['main_activity_content'] = vm.get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
+            self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
         except:
+            print('[+] AnalyzeAPK failed, running AnalyzeDex')
             apk = None
             vm, vm_analysis = AnalyzeDex(target)
             self.results['dex'] = True
