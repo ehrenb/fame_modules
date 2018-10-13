@@ -31,7 +31,8 @@ class APKFindURLS(ProcessingModule):
             strings.extend(v.get_strings())
         for s in strings:
             for regex_str in r:
-                matches = re.findall(regex_str, s)
-                self.results['urls'].extend(matches)
-            # if any(re.search(regex_str, s) for regex_str in r)
+                match = re.search(regex_str, s)
+                if match:
+                    self.results['urls'].append(match.group(0))
+        self.results['urls'] = list(set(self.results['urls']))
         return True
