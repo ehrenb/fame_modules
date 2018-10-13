@@ -36,3 +36,4 @@ class APKFindURLS(ProcessingModule):
                 matches = re.findall(regex_str, s)
                 self.results['urls'].extend(matches)
             # if any(re.search(regex_str, s) for regex_str in r)
+        return True
