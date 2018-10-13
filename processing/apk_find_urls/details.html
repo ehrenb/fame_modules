@@ -1,0 +1,13 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">APK URLs</h4>
+            <p class="category">Detailed Results</p>
+        </div>
+        <div class="content">
+        {% for url in results.urls %}
+            <div class="labeled-content">{{url}}</div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
