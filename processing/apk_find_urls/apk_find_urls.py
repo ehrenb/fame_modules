@@ -10,10 +10,8 @@ try:
 except ImportError:
     HAVE_ANDROGUARD = False
 
-
-#The hostname regex matches on 'google.com' which might be too broad
-r = [r'^([[a-zA-Z]+:\/\/){0,1}((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9]))(:[0-9]{0,5}){0,1}$',
-     r'^([[a-zA-Z]+:\/\/){0,1}((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(:[0-9]{0,5}){0,1}$']
+#src https://www.owasp.org/index.php/OWASP_Validation_Regex_Repository
+r= [r'^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|[-()_.!~*\';/?:@&=+$,A-Za-z0-9])+)([).!\';/?:,][[:blank:]])?$']
 
 class APKFindURLS(ProcessingModule):
     name = "apk_find_urls"
