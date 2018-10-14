@@ -13,7 +13,7 @@ except ImportError:
 r= [r'(content://.*)']
 class APKFindContentProviders(ProcessingModule):
     name = "apk_find_content_providers"
-    description = "Search for content provider strings containing content://"
+    description = "Search for content provider strings containing 'content://'"
     acts_on = ["apk", "dex"]
 
     def initialize(self):
