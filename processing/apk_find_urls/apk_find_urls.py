@@ -25,7 +25,14 @@ class APKFindURLS(ProcessingModule):
     def each(self, target):
         self.results = dict()
         self.results['urls'] = []
-        apk, vm, vm_analysis = AnalyzeAPK(target)
+        try:
+            apk, vm, vm_analysis = AnalyzeAPK(target)
+        except:
+            print('[+] AnalyzeAPK failed, running AnalyzeDex')
+            apk = None
+            vm, vm_analysis = AnalyzeDex(target)
+            self.results['dex'] = True
+            
         strings = []
         for v in vm:
             strings.extend(v.get_strings())
