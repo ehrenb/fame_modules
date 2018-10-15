@@ -10,11 +10,10 @@ try:
 except ImportError:
     HAVE_ANDROGUARD = False
 
-#test
 r= [r'(content://.*)']
 class APKFindContentProviders(ProcessingModule):
     name = "apk_find_content_providers"
-    description = "Search for referenced content provider strings containing 'content://'"
+    description = "Search for referenced content provider strings containing 'content://' test"
     acts_on = ["apk", "dex"]
 
     def initialize(self):
