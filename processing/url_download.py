@@ -17,7 +17,7 @@ class URLDownload(ProcessingModule):
     triggered_by = "!"
 
     def each(self, target):
-        response = requests.get(target, stream=True)
+        response = requests.get(target, stream=True, verify=False)
 
         if response.status_code == 200:
             tmpdir = tempdir()
