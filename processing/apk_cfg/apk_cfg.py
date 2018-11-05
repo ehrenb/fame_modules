@@ -23,7 +23,7 @@ except ImportError:
 class APK_CFG(ProcessingModule):
     name = "apk_cfg"
     description = "Generate NetworkX Control-flow graph (DiGraph) of an APK"
-    acts_on ["apk"]
+    acts_on = ["apk"]
 
     def each(self, target):
         self.results = dict()
