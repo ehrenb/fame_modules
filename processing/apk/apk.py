@@ -4,7 +4,6 @@ import traceback
 from fame.common.utils import tempdir
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
-import fame.core.module.ProcessingModule.add_support_file
 
 from .apk_plugins import *
 
@@ -40,7 +39,7 @@ class APK(ProcessingModule):
         filepath = os.path.join(tempdir(), 'internal_classes.json')
         with open(filepath, 'w') as f:
             json.dump(self.results['internal_classes'], f, sort_keys=True, indent=4)
-        add_support_file('Internal Classes & Methods', filepath)
+        self.add_support_file('Internal Classes & Methods', filepath)
 
     def initialize(self):
         if not HAVE_ANDROGUARD:
