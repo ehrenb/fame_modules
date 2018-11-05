@@ -86,6 +86,14 @@
             <pre><code class="java">{{results.main_activity_content}}</code>
             </pre>
 
+
+            <label>Libraries</label>
+            <div class="labeled-content">
+            {% for library in results.libraries %}
+                <div>{{library}}</div>
+            {% endfor %}
+            </div>
+
             <label>Manifest</label>
             <div class="labeled-content">
                 <pre><code class="xml">{{results.manifest}}</code></pre>

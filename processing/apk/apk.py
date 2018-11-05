@@ -55,6 +55,7 @@ class APK(ProcessingModule):
             self.results['receivers'] = apk.get_receivers()
             self.results['services'] = apk.get_services()
             self.results['manifest'] = apk.get_android_manifest_axml().get_xml()
+            self.results['libraries'] = apk.get_libraries()
             self.results['main_activity_content'] = None
             self.results['external_classes'] = []
             try:
