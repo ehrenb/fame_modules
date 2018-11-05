@@ -21,16 +21,16 @@ except ImportError:
     HAVE_NETWORKX = False
 
 
-class APK_CFG(ProcessingModule):
-    name = "apk_cfg"
-    description = "Generate NetworkX Control-flow graph (DiGraph) of an APK"
+class APK_cg(ProcessingModule):
+    name = "apk_cg"
+    description = "Generate NetworkX Call graph (DiGraph) of an APK"
     acts_on = ["apk"]
 
     def each(self, target):
         self.results = dict()
         try:
-            cfg = self.get_call_graph(target)
-            self.results['cfg_nx'] = cfg
+            cg = self.get_call_graph(target)
+            self.results['cg_nx'] = cg
             self._store_call_graph()
         except:
             print('[+] {}'.format(traceback.print_exc()))
@@ -43,9 +43,9 @@ class APK_CFG(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: networkx")
 
     def _store_call_graph(self):
-        filepath = os.path.join(tempdir(), 'cfg_nx.json')
+        filepath = os.path.join(tempdir(), 'cg_nx.json')
         with open(filepath, 'w') as f:
-            json.dump(self.results['cfg_nx'], f, sort_keys=True, indent=4)
+            f.write(json.dumps(self.results['cg_nx'], sort_keys=True, indent=4))
         self.add_support_file('NetworkX Control Flow Graph', filepath)
 
     def get_call_graph(self, apk):
