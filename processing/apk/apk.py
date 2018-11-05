@@ -1,3 +1,5 @@
+import traceback
+
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 from .apk_plugins import *
@@ -56,6 +58,7 @@ class APK(ProcessingModule):
             self.results['external_classes'] = self._get_internal_classes(vm_analysis)
         except:
             print('[+] AnalyzeAPK failed, running AnalyzeDex')
+            print('[+] {}'.format(traceback.print_exc()))
             apk = None
             vm, vm_analysis = AnalyzeDex(target)
             self.results['dex'] = True
