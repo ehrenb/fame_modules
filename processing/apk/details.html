@@ -46,14 +46,14 @@
             </div>
             <label>Main Activity</label>
             <div class="labeled-content">{{results.main_activity}}</div>
-            <label>Files</label>
-            <div class="labeled-content">
-            {% for file in results.files %}
-                <div>{{file}}</div>
-            {% endfor %}
-            </div>
             <pre><code class="java">{{results.main_activity_content}}</code>
             </pre>
+            <label>Files</label>
+            <div class="labeled-content">
+            {% for name, magic in results.files.iteritems() %}
+                <div>{{name}}, {{magic}}</div>
+            {% endfor %}
+            </div>
             <label>External Classes</label>
             <div class="labeled-content">
             {% for external_class in results.external_classes %}
