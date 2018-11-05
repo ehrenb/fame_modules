@@ -14,6 +14,7 @@
             <div class="labeled-content">{{results.name}}</div>
             <label>Package</label>
             <div class="labeled-content">{{results.package}}</div>
+
             <label>Permissions</label>
             <div class="labeled-content">
             
@@ -25,6 +26,27 @@
                     <th>Description</th>
                 </tr>
                 {% for permission_name, permission in results.permissions.iteritems() %}
+                    <tr>
+                        <td><div>{{permission_name}}</div></td>
+                        <td><div>{{permission[0]}}</div></td>
+                        <td><div>{{permission[1]}}</div></td>
+                        <td><div>{{permission[2]}}</div></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            </div>
+
+            <label>Declared Permissions</label>
+            <div class="labeled-content">
+            
+            <table>
+                <tr>
+                    <th>Permission</th>
+                    <th>Protection Level</th>
+                    <th>Label</th>
+                    <th>Description</th>
+                </tr>
+                {% for permission_name, permission in results.declared_permissions.iteritems() %}
                     <tr>
                         <td><div>{{permission_name}}</div></td>
                         <td><div>{{permission[0]}}</div></td>
