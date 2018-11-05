@@ -48,6 +48,7 @@ class APK(ProcessingModule):
             self.results['package'] = apk.get_package()
             self.results['permissions'] = apk.get_permissions()
             self.results['main_activity'] = apk.get_main_activity()
+            self.results['activities'] = apk.get_activities()
             self.results['receivers'] = apk.get_receivers()
             self.results['services'] = apk.get_services()
             self.results['manifest'] = apk.get_android_manifest_axml().get_xml()
