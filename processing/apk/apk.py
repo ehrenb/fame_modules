@@ -54,8 +54,17 @@ class APK(ProcessingModule):
             self.results['receivers'] = apk.get_receivers()
             self.results['services'] = apk.get_services()
             self.results['manifest'] = apk.get_android_manifest_axml().get_xml()
-            self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
-            self.results['external_classes'] = self._get_internal_classes(vm_analysis)
+            self.results['main_activity_content'] = None
+            self.results['external_classes'] = []
+            try:
+                self.results['main_activity_content'] = self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
+            except:
+                print('[+] {}'.format(traceback.print_exc()))
+
+            try:
+                self.results['external_classes'] = self._get_internal_classes(vm_analysis)
+            except:
+                print('[+] {}'.format(traceback.print_exc()))
         except:
             print('[+] AnalyzeAPK failed, running AnalyzeDex')
             print('[+] {}'.format(traceback.print_exc()))
