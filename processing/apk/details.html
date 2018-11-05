@@ -16,10 +16,25 @@
             <div class="labeled-content">{{results.package}}</div>
             <label>Permissions</label>
             <div class="labeled-content">
-            {% for permission in results.permissions %}
-                <div>{{permission}}</div>
-            {% endfor %}
+            
+            <table>
+                <tr>
+                    <th>Permission</th>
+                    <th>Protection Level</th>
+                    <th>Label</th>
+                    <th>Description</th>
+                </tr>
+                {% for permission_name, permission in results.permissions.iteritems() %}
+                    <tr>
+                        <td><div>{{permission_name}}</div></td>
+                        <td><div>{{permission[0]}}</div></td>
+                        <td><div>{{permission[1]}}</div></td>
+                        <td><div>{{permission[2]}}</div></td>
+                    </tr>
+                {% endfor %}
+            </table>
             </div>
+
             <label>Activities</label>
             <div class="labeled-content">
             {% for activity in results.activities %}
@@ -48,6 +63,12 @@
             <div class="labeled-content">{{results.main_activity}}</div>
             <pre><code class="java">{{results.main_activity_content}}</code>
             </pre>
+
+            <label>Manifest</label>
+            <div class="labeled-content">
+                <pre><code class="xml">{{results.manifest}}</code></pre>
+            </div>
+
             <label>Files</label>
             <div class="labeled-content">
             <table>
@@ -63,21 +84,17 @@
             {% endfor %}
             </table>
             </div>
-            <label>External Classes</label>
+            <label>Internal Classes</label>
             <div class="labeled-content">
-            {% for external_class in results.external_classes %}
-                <div>{{external_class.name}}</div>
+            {% for internal_class in results.internal_classes %}
+                <div>{{internal_class.name}}</div>
                 <ul>
-                {% for method in external_class.methods %}
+                {% for method in internal_class.methods %}
                     <li>{{method}}</li>
                 {% endfor %}
                 </ul>
             {% endfor %}
             </div>
-            <div class="labeled-content">
-                <pre><code class="xml">{{results.manifest}}</code></pre>
-            </div>
-
         </div>
         {% endif %}
     </div>

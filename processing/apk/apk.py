@@ -48,7 +48,8 @@ class APK(ProcessingModule):
             self.results['name'] = apk.get_app_name()
             self.results['files'] = apk.get_files_types()
             self.results['package'] = apk.get_package()
-            self.results['permissions'] = apk.get_permissions()
+            # self.results['permissions'] = apk.get_permissions()
+            self.results['permissions'] = apk.get_details_permissions()
             self.results['main_activity'] = apk.get_main_activity()
             self.results['activities'] = apk.get_activities()
             self.results['receivers'] = apk.get_receivers()
@@ -62,7 +63,7 @@ class APK(ProcessingModule):
                 print('[+] {}'.format(traceback.print_exc()))
 
             try:
-                self.results['external_classes'] = self._get_internal_classes(vm_analysis)
+                self.results['internal_classes'] = self._get_internal_classes(vm_analysis)
             except:
                 print('[+] {}'.format(traceback.print_exc()))
         except:
