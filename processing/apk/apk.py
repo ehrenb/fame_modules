@@ -1,7 +1,10 @@
 import traceback
 
+from fame.common.utils import tempdir
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
+import fame.core.module.ProcessingModule.add_support_file()
+
 from .apk_plugins import *
 
 
@@ -32,6 +35,12 @@ class APK(ProcessingModule):
                             'methods': methods})
         return results
 
+    def _store_internal_classes(self):
+        filepath = os.path.join(tempdir(), 'internal_classes.json')
+        with open(filepath, 'w') as f:
+            json.dump(self.results['internal_classes'], f, sort_keys=True, indent=4)
+        add_support_file('Internal Classes & Methods', filepath)
+
     def initialize(self):
         if not HAVE_ANDROGUARD:
             raise ModuleInitializationError(self, "Missing dependency: androguard")
@@ -57,7 +66,7 @@ class APK(ProcessingModule):
             self.results['manifest'] = apk.get_android_manifest_axml().get_xml()
             self.results['libraries'] = list(apk.get_libraries())
             self.results['main_activity_content'] = None
-            self.results['external_classes'] = []
+            self.results['internal_classes'] = []
             try:
                 self.results['main_activity_content'] = self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
             except:
@@ -65,6 +74,7 @@ class APK(ProcessingModule):
 
             try:
                 self.results['internal_classes'] = self._get_internal_classes(vm_analysis)
+                self._store_internal_classes()
             except:
                 print('[+] {}'.format(traceback.print_exc()))
         except:
