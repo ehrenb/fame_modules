@@ -21,9 +21,9 @@ class APK(ProcessingModule):
     description = "Perform static analysis on APK/DEX files. Will also run static analysis modules trying to extract configuration from known Android malware."
     acts_on = ["apk", "dex"]
 
-    def _get_external_classes(self, vm_analysis):
+    def _get_internal_classes(self, vm_analysis):
         results = []
-        for c in vm_analysis.get_external_classes():
+        for c in vm_analysis.get_internal_classes():
             name = c.get_vm_class().get_name()
             methods = [m.get_method().get_name() for m in c.get_methods()]
             results.append({'name': name,
@@ -53,7 +53,7 @@ class APK(ProcessingModule):
             self.results['services'] = apk.get_services()
             self.results['manifest'] = apk.get_android_manifest_axml().get_xml()
             self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
-            self.results['external_classes'] = self._get_external_classes(vm_analysis)
+            self.results['external_classes'] = self._get_internal_classes(vm_analysis)
         except:
             print('[+] AnalyzeAPK failed, running AnalyzeDex')
             apk = None
