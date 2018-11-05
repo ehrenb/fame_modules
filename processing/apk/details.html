@@ -57,10 +57,8 @@
             </tr>
             {% for name, magic in results.files.iteritems() %}
                 <tr>
-                    <div>{{name}}</div>,
-                </tr>
-                <tr>
-                    <div>{{magic}}</div>
+                    <td><div>{{name}}</div></td>
+                    <td><div>{{magic}}</div></td>
                 </tr>
             {% endfor %}
             </ul>
