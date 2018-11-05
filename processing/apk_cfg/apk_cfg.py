@@ -15,6 +15,7 @@ except ImportError:
 
 try:
     import networkx as nx
+    from networkx.readwrite import json_graph
     HAVE_NETWORKX = True
 except ImportError:
     HAVE_NETWORKX = False
@@ -68,4 +69,4 @@ class APK_CFG(ProcessingModule):
         #                      graphml=nx.write_graphml,
         #                      yaml=nx.write_yaml,
         #                      net=nx.write_pajek,
-        return CG
+        return json_graph.node_link_data(CG)
