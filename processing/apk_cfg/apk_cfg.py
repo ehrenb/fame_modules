@@ -27,9 +27,12 @@ class APK_CFG(ProcessingModule):
 
     def each(self, target):
         self.results = dict()
-        cfg = self.get_call_graph(target)
-        self.results['cfg_nx'] = cfg
-        self._store_call_graph()
+        try:
+            cfg = self.get_call_graph(target)
+            self.results['cfg_nx'] = cfg
+            self._store_call_graph()
+        except:
+            print('[+] {}'.format(traceback.print_exc()))
         return True
 
     def initialize(self):
