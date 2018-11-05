@@ -1,9 +1,10 @@
+import json
 import traceback
 
 from fame.common.utils import tempdir
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
-import fame.core.module.ProcessingModule.add_support_file()
+import fame.core.module.ProcessingModule.add_support_file
 
 from .apk_plugins import *
 
