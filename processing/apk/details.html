@@ -114,16 +114,10 @@
             {% endfor %}
             </table>
             </div>
-            <label>Internal Classes</label>
-            <div class="labeled-content">
-            {% for internal_class in results.internal_classes %}
-                <div>{{internal_class.name}}</div>
-                <ul>
-                {% for method in internal_class.methods %}
-                    <li>{{method}}</li>
-                {% endfor %}
-                </ul>
-            {% endfor %}
+             <div class="footer">
+                <div class="stats">
+                    {{support_files(name)}}
+                </div>
             </div>
         </div>
         {% endif %}
