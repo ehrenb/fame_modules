@@ -9,15 +9,32 @@ try:
 except ImportError:
     HAVE_ANDROGUARD = False
 
+try:
+    import magic
+    HAVE_MAGIC = True
+except ImportError:
+    HAVE_MAGIC = False
+
 
 class APK(ProcessingModule):
     name = "apk"
     description = "Perform static analysis on APK/DEX files. Will also run static analysis modules trying to extract configuration from known Android malware."
     acts_on = ["apk", "dex"]
 
+    def _get_external_classes(self, vm_analysis):
+        results = []
+        for c in vm_analysis.get_external_classes():
+            name = c.get_vm_class().get_name()
+            methods = [m.get_method().get_name() for m in c.get_methods()]
+            results.append({'name': name,
+                            'methods': methods})
+        return results
+
     def initialize(self):
         if not HAVE_ANDROGUARD:
             raise ModuleInitializationError(self, "Missing dependency: androguard")
+        if not HAVE_MAGIC:
+            raise ModuleInitializationError(self, "Missing dependency: python-magic")
 
     def each(self, target):
         self.results = dict()
@@ -27,12 +44,15 @@ class APK(ProcessingModule):
 
             # First, get basic information about the APK
             self.results['name'] = apk.get_app_name()
+            self.results['files'] = apk.get_files_types()
             self.results['package'] = apk.get_package()
             self.results['permissions'] = apk.get_permissions()
             self.results['main_activity'] = apk.get_main_activity()
             self.results['receivers'] = apk.get_receivers()
             self.results['services'] = apk.get_services()
+            self.results['manifest'] = apk.get_android_manifest_axml().get_xml()
             self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
+            self.results['external_classes'] = self._get_external_classes(vm_analysis)
         except:
             print('[+] AnalyzeAPK failed, running AnalyzeDex')
             apk = None
