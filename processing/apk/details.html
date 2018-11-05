@@ -50,9 +50,20 @@
             </pre>
             <label>Files</label>
             <div class="labeled-content">
+            <ul>
+             <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
             {% for name, magic in results.files.iteritems() %}
-                <div>{{name}}, {{magic}}</div>
+                <tr>
+                    <div>{{name}}</div>,
+                </tr>
+                <tr>
+                    <div>{{magic}}</div>
+                </tr>
             {% endfor %}
+            </ul>
             </div>
             <label>External Classes</label>
             <div class="labeled-content">
