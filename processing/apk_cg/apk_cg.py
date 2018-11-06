@@ -15,7 +15,6 @@ except ImportError:
 
 try:
     import networkx as nx
-    from networkx.readwrite import json_graph
     HAVE_NETWORKX = True
 except ImportError:
     HAVE_NETWORKX = False
@@ -23,15 +22,14 @@ except ImportError:
 
 class APK_cg(ProcessingModule):
     name = "apk_cg"
-    description = "Generate NetworkX Call graph (DiGraph) of an APK"
+    description = "Generate Call graph (DiGraph) of an APK"
     acts_on = ["apk"]
 
     def each(self, target):
         self.results = dict()
         try:
             cg = self.get_call_graph(target)
-            self.results['cg_nx'] = cg
-            self._store_call_graph()
+            self._store_call_graph(cg)
         except:
             print('[+] {}'.format(traceback.print_exc()))
         return True
@@ -42,11 +40,10 @@ class APK_cg(ProcessingModule):
         if not HAVE_NETWORKX:
             raise ModuleInitializationError(self, "Missing dependency: networkx")
 
-    def _store_call_graph(self):
-        filepath = os.path.join(tempdir(), 'cg_nx.json')
-        with open(filepath, 'w') as f:
-            f.write(json.dumps(self.results['cg_nx'], sort_keys=True, indent=4))
-        self.add_support_file('NetworkX Control Flow Graph', filepath)
+    def _store_call_graph(self, cg):
+        filepath = os.path.join(tempdir(), 'cg.gml')
+        nx.write_gml(CG, filepath, stringizer=str)
+        self.add_support_file('Call Graph GML', filepath)
 
     def get_call_graph(self, apk):
         a, d, dx = AnalyzeAPK(apk)
@@ -69,4 +66,4 @@ class APK_cg(ProcessingModule):
         #                      graphml=nx.write_graphml,
         #                      yaml=nx.write_yaml,
         #                      net=nx.write_pajek,
-        return json_graph.node_link_data(CG)
+        return CG
