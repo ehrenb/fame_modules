@@ -42,7 +42,7 @@ class APK_cg(ProcessingModule):
 
     def _store_call_graph(self, cg):
         filepath = os.path.join(tempdir(), 'cg.gml')
-        nx.write_gml(CG, filepath, stringizer=str)
+        nx.write_gml(cg, filepath, stringizer=str)
         self.add_support_file('Call Graph GML', filepath)
 
     def get_call_graph(self, apk):
