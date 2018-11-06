@@ -12,7 +12,7 @@ except ImportError:
 class PE(ProcessingModule):
     name = "pe"
     description = "Perform static analysis on PE files"
-    acts_on = ["exe", "dll"]
+    acts_on = ["exe", "executable", "dll"]
 
     def initialize(self):
         if not HAVE_PEFILE:
