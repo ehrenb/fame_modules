@@ -12,7 +12,7 @@ except ImportError:
 class PE(ProcessingModule):
     name = "pe"
     description = "Perform static analysis on PE files"
-    acts_on ["exe", "dll"]
+    acts_on = ["exe", "dll"]
 
     def initialize(self):
         if not HAVE_PEFILE:
@@ -21,6 +21,8 @@ class PE(ProcessingModule):
     def each(self, target):
         self.results = dict()
         try:
+
+            pe = pefile.PE(target, fast_load=True)
             ep = pe.OPTIONAL_HEADER.AddressOfEntryPoint
             base = pe.OPTIONAL_HEADER.ImageBase
             sections = pe.FILE_HEADER.NumberOfSections
