@@ -1,3 +1,6 @@
+"""generate call graph using Androguard (3.2.1) in GML.  This is doing exactly
+the same thing as androcg.py"""
+
 import json
 import os
 import traceback

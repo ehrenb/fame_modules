@@ -1,0 +1,58 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">PE Analysis</h4>
+            <p class="category">Detailed Results</p>
+        </div>
+        <div class="content">
+            <label>Entrypoint</label>
+            <div class="labeled-content">{{results.entrypoint}}</div>
+            <label>Base Address</label>
+            <div class="labeled-content">{{results.base}}</div>
+            <label>Number of Sections</label>
+            <div class="labeled-content">{{results.num_sections}}</div>
+
+            <label>Imported Symbols</label>
+            <div class="labeled-content">
+            {% for import in results.imported_symbols %}
+            <table>
+                <tr>
+                    <th> {{ import.dll }} </th>
+                </tr>
+                {% if import.functions %}
+                <tr>
+                    <th>Address</th>
+                    <th>Name</th>
+                </tr>
+                {% for function in import.functions %}
+                    <tr>
+                        <td>{{ function.address }}</td>
+                        <td>{{ function.name }}</td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+            </table>
+            {% endfor %}
+        </div>
+
+            <label>Exported Symbols</label>
+            <div class="labeled-content">
+            {% for export in results.exported_symbols %}
+            <table>
+                <tr>
+                    <th>Address</th>
+                    <th>Name</th>
+                    <th>Ordinal</th>
+                </tr>
+                <tr>
+                    <td>{{ export.address }}</td>
+                    <td>{{ export.name }}</td>
+                    <td>{{ export.ordinal }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+  
