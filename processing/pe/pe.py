@@ -22,12 +22,15 @@ class PE(ProcessingModule):
         self.results = dict()
         try:
             pe = pefile.PE(target, fast_load=True)
-            pe.parse_data_directories()
             ep = pe.OPTIONAL_HEADER.AddressOfEntryPoint
             base = pe.OPTIONAL_HEADER.ImageBase
             sections = pe.FILE_HEADER.NumberOfSections
-
             imported_symbols = []
+            exported_symbols = []
+
+            if pe.OPTIONAL_HEADER.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_IMPORT']].VirtualAddress != 0:
+                pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_IMPORT']])
+
             for entry in pe.DIRECTORY_ENTRY_IMPORT:
                 imported = {'dll': entry.dll,
                             'functions': []}
@@ -36,7 +39,6 @@ class PE(ProcessingModule):
                                                   'name': imp.name})
                 imported_symbols.append(imported)
 
-            exported_symbols = []
             for exp in pe.DIRECTORY_ENTRY_EXPORT.symbols:
                 exported = {'address': hex(pe.OPTIONAL_HEADER.ImageBase + exp.address), 
                             'name': exp.name,
