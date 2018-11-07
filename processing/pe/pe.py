@@ -21,8 +21,8 @@ class PE(ProcessingModule):
     def each(self, target):
         self.results = dict()
         try:
-
             pe = pefile.PE(target, fast_load=True)
+            pe.parse_data_directories()
             ep = pe.OPTIONAL_HEADER.AddressOfEntryPoint
             base = pe.OPTIONAL_HEADER.ImageBase
             sections = pe.FILE_HEADER.NumberOfSections
