@@ -31,13 +31,13 @@ class PE(ProcessingModule):
             if pe.OPTIONAL_HEADER.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_IMPORT']].VirtualAddress != 0:
                 pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_IMPORT']])
 
-            for entry in pe.DIRECTORY_ENTRY_IMPORT:
-                imported = {'dll': entry.dll,
-                            'functions': []}
-                for imp in entry.imports:
-                    imported['functions'].append({'address': hex(imp.address),
-                                                  'name': imp.name})
-                imported_symbols.append(imported)
+                for entry in pe.DIRECTORY_ENTRY_IMPORT:
+                    imported = {'dll': entry.dll,
+                                'functions': []}
+                    for imp in entry.imports:
+                        imported['functions'].append({'address': hex(imp.address),
+                                                      'name': imp.name})
+                    imported_symbols.append(imported)
 
             for exp in pe.DIRECTORY_ENTRY_EXPORT.symbols:
                 exported = {'address': hex(pe.OPTIONAL_HEADER.ImageBase + exp.address), 
