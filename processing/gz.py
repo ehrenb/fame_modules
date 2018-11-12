@@ -9,7 +9,7 @@ from fame.common.utils import tempdir
 class Gz(ProcessingModule):
     name = "gz"
     description = "Extract files from GZip archive."
-    acts_on = "gz"
+    acts_on = "gzip"
 
     def each(self, target):
         tmpdir = tempdir()
