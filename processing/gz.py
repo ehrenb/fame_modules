@@ -15,6 +15,7 @@ class Gz(ProcessingModule):
         tmpdir = tempdir()
         filepath = os.path.join(tmpdir, target)
         with gzip.open(target, 'rb') as f_in, open(filepath, 'wb') as f_out:
-            shutil.copyfileobj(f_in, f_out)
+            # shutil.copyfileobj(f_in, f_out)
+            f_out.write(f_in.read())
         self.add_extracted_file(filepath)
         return True
