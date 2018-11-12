@@ -6,10 +6,10 @@ from fame.core.module import ProcessingModule
 from fame.common.utils import tempdir
 
 
-class Gzip(ProcessingModule):
-    name = "gzip"
+class Gz(ProcessingModule):
+    name = "gz"
     description = "Extract files from GZip archive."
-    acts_on = "gzip"
+    acts_on = "gz"
 
     def each(self, target):
         tmpdir = tempdir()
