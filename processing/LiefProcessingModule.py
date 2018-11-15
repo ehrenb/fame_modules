@@ -26,3 +26,6 @@ class LiefProcessingModule(ProcessingModule):
         except:
             print('[+] {}'.format(traceback.print_exc()))
         return binary_dict
+
+    def each(self, target):
+        pass
