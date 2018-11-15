@@ -34,7 +34,7 @@ class APK_cg(ProcessingModule):
             cg = self.get_call_graph(target)
             self._store_call_graph(cg)
         except:
-            print('[+] {}'.format(traceback.print_exc()))
+            self.log('error', traceback.print_exc())
         return True
 
     def initialize(self):

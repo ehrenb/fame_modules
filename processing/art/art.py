@@ -29,5 +29,5 @@ class ART(LiefProcessingModule):
 
             ## Do other analyses here
         except:
-            print('[+] {}'.format(traceback.print_exc()))
+            self.log('error', traceback.print_exc())
         return True

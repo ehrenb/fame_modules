@@ -28,7 +28,7 @@ class APKFindURLS(ProcessingModule):
         try:
             apk, vm, vm_analysis = AnalyzeAPK(target)
         except:
-            print('[+] AnalyzeAPK failed, running AnalyzeDex')
+            self.log('error', '[+] AnalyzeAPK failed, running AnalyzeDex')
             apk = None
             vm, vm_analysis = AnalyzeDex(target)
             self.results['dex'] = True

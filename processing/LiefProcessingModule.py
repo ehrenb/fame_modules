@@ -21,7 +21,7 @@ class LiefProcessingModule(ProcessingModule):
             binary = lief.parse(target)
             binary_dict = json.loads(lief.to_json(binary))
         except:
-            print('[+] {}'.format(traceback.print_exc()))
+            self.log('error', traceback.print_exc())
         return binary_dict
 
     def each(self, target):

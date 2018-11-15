@@ -71,16 +71,16 @@ class APK(ProcessingModule):
             try:
                 self.results['main_activity_content'] = self.results['main_activity_content'] = vm[0].get_class("L{};".format(self.results['main_activity']).replace('.', '/')).get_source()
             except:
-                print('[+] {}'.format(traceback.print_exc()))
+                self.log('error',traceback.print_exc())
 
             try:
                 self.results['internal_classes'] = self._get_internal_classes(vm_analysis)
                 self._store_internal_classes()
             except:
-                print('[+] {}'.format(traceback.print_exc()))
+                self.log('error',traceback.print_exc())
         except:
-            print('[+] AnalyzeAPK failed, running AnalyzeDex')
-            print('[+] {}'.format(traceback.print_exc()))
+            self.log('error', '[+] AnalyzeAPK failed, running AnalyzeDex')
+            self.log('error', traceback.print_exc())
             apk = None
             vm, vm_analysis = AnalyzeDex(target)
             self.results['dex'] = True
