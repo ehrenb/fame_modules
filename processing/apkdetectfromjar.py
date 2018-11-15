@@ -13,9 +13,7 @@ class ApkDetectFromJAR(ProcessingModule):
 
     def each(self, target):
         tmpdir = tempdir()
-
         zf = ZipFile(target)
-
         namelist = zf.namelist()
 
         if 'classes.dex' in namelist and 'META-INF/MANIFEST.MF' in namelist:

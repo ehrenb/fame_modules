@@ -1,26 +1,27 @@
 import json
 import traceback
 
+try: 
+    import lief
+except ImportError:
+    HAVE_LIEF = False
+
 from fame.core.module import ProcessingModule
-from fame.modules.community.processing.LiefProcessingModule import LiefProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
 
-class PE(LiefProcessingModule):
+class LiefProcessingModule(ProcessingModule):
     name = "pe"
     description = "Perform static analysis on PE files"
-    acts_on = ["executable"]
 
     def initialize(self):
         if not HAVE_LIEF:
             raise ModuleInitializationError(self, "Missing dependency: lief")
 
-    def each(self, target):
-        self.results = dict()
+    def lief_analysis(self, target):
         try:
-            lief_analysis = self.lief_analysis(target)
-            self.results.update(lief_analysis)
-
-            ## Do other analyses here
+            binary = lief.parse(target)
+            binary_dict = json.loads(lief.to_json(binary))
         except:
             print('[+] {}'.format(traceback.print_exc()))
+        return binary_dict
