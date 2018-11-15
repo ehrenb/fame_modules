@@ -12,9 +12,6 @@ from fame.common.exceptions import ModuleInitializationError
 
 
 class LiefProcessingModule(ProcessingModule):
-    name = "pe"
-    description = "Perform static analysis on PE files"
-
     def initialize(self):
         if not HAVE_LIEF:
             raise ModuleInitializationError(self, "Missing dependency: lief")
