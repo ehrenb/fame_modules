@@ -30,3 +30,4 @@ class PE(LiefProcessingModule):
             ## Do other analyses here
         except:
             print('[+] {}'.format(traceback.print_exc()))
+        return True
