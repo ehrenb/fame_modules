@@ -1,6 +1,11 @@
 import json
 import traceback
 
+try: 
+    import lief
+except ImportError:
+    HAVE_LIEF = False
+
 from fame.core.module import ProcessingModule
 from fame.modules.community.processing.LiefProcessingModule import LiefProcessingModule
 from fame.common.exceptions import ModuleInitializationError
