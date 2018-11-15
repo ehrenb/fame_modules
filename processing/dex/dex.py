@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class DEX(LiefProcessingModule):
     name = "dex"
     description = "Perform static analysis on DEX files"
-    acts_on = ["dex"]
+    acts_on = "dex"
 
     def initialize(self):
         if not HAVE_LIEF:

@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class ELF(LiefProcessingModule):
     name = "elf"
     description = "Perform static analysis on ELF files"
-    acts_on = ["elf"]
+    acts_on = "elf"
 
     def initialize(self):
         if not HAVE_LIEF:

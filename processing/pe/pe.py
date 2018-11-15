@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class PE(LiefProcessingModule):
     name = "pe"
     description = "Perform static analysis on PE files"
-    acts_on = ["executable"]
+    acts_on = "executable"
 
     def initialize(self):
         if not HAVE_LIEF:

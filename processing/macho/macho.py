@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class MachO(LiefProcessingModule):
     name = "macho"
     description = "Perform static analysis on MachO files"
-    acts_on = ["macho"]
+    acts_on = "macho"
 
     def initialize(self):
         if not HAVE_LIEF:

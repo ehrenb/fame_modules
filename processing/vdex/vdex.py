@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class VDEX(LiefProcessingModule):
     name = "vdex"
     description = "Perform static analysis on VDEX files"
-    acts_on = ["vdex"]
+    acts_on = "vdex"
 
     def initialize(self):
         if not HAVE_LIEF:

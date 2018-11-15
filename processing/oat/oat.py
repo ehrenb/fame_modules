@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class OAT(LiefProcessingModule):
     name = "oat"
     description = "Perform static analysis on OAT files"
-    acts_on = ["oat"]
+    acts_on = "oat"
 
     def initialize(self):
         if not HAVE_LIEF:

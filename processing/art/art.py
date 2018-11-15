@@ -15,7 +15,7 @@ from fame.common.exceptions import ModuleInitializationError
 class ART(LiefProcessingModule):
     name = "art"
     description = "Perform static analysis on ART files"
-    acts_on = ["art"]
+    acts_on = "art"
 
     def initialize(self):
         if not HAVE_LIEF:
