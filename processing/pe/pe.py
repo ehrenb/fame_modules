@@ -3,6 +3,7 @@ import traceback
 
 try: 
     import lief
+    HAVE_LIEF = True
 except ImportError:
     HAVE_LIEF = False
 
