@@ -16,15 +16,15 @@ from fame.common.exceptions import ModuleInitializationError
 class LiefDetector(ProcessingModule):
     name = 'liefdetector'
     description = 'Use lief to detect & change abstract types of binaries for new analyses'
-
+    triggered_by = "!type_resolved"
+    
     def initialize(self):
         if not HAVE_LIEF:
             raise ModuleInitializationError(self, "Missing dependency: lief")
 
     def each(self, target):
         # Prevent circular detection
-        if 'type_resolved' in self.tags:
-            return False
+
 
         self.results = dict()
         if self.type_resolved(target):
