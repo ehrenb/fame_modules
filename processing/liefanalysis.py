@@ -16,7 +16,7 @@ from fame.common.exceptions import ModuleInitializationError
 class LiefAnalysis(ProcessingModule):
     name = 'liefanalysis'
     description = 'Perform static analysis on elf, dex, executable, macho, oat, vdex, and art and change abstract type for new analysis'
-    acts_on = '*'
+    # acts_on = '*'
 
     def initialize(self):
         if not HAVE_LIEF:
@@ -24,19 +24,11 @@ class LiefAnalysis(ProcessingModule):
 
     def each(self, target):
         self.results = dict()
-
         if self.type_resolved(target):
-            try:
-                binary = lief.parse(target)
-                binary_dict = json.loads(lief.to_json(binary))
-                self.results.update(binary)
-
-            except:
-                self.log('error', traceback.print_exc())
+            return True
         else:
             self.log('warn', 'Lief could not resolve abstract type')
-
-        return True
+        return False
 
     def type_resolved(self, target):
         new = None
