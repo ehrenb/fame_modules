@@ -24,7 +24,9 @@ class MachO(ProcessingModule):
         self.results = dict()
         try:
             binary = lief.parse(target)
-            binary_dict = json.loads(lief.to_json(binary))
+            #convert very long ints to str for Mongo
+            #typically fails due to utf-8 encoding issues
+            binary_dict = json.loads(lief.to_json(binary), parse_int=str)
             self.results.update(binary_dict)
         except:
             self.log('error', traceback.print_exc())
