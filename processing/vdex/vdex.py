@@ -24,7 +24,7 @@ class VDEX(ProcessingModule):
         self.results = dict()
         try:
             binary = lief.VDEX.parse(target)
-            binary_dict = json.loads(lief.to_json(binary))
+            binary_dict = json.loads(lief.to_json(binary), parse_int=str)
             self.results.update(binary_dict)
         except:
             self.log('error', traceback.print_exc())

@@ -10,7 +10,8 @@ except ImportError:
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
-
+#typically fails due to utf-8 encoding issues that can't be handled
+#unless hooking lief's to_json function and decoding
 class MachO(ProcessingModule):
     name = "macho"
     description = "Perform static analysis on MachO files"
@@ -25,7 +26,6 @@ class MachO(ProcessingModule):
         try:
             binary = lief.parse(target)
             #convert very long ints to str for Mongo
-            #typically fails due to utf-8 encoding issues
             binary_dict = json.loads(lief.to_json(binary), parse_int=str)
             self.results.update(binary_dict)
         except:
