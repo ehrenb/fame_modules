@@ -6,7 +6,7 @@ try:
     HAVE_LIEF = True
 except ImportError:
     HAVE_LIEF = False
-    
+
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
@@ -25,7 +25,7 @@ class DEX(ProcessingModule):
         try:
             binary = lief.DEX.parse(target)
             binary_dict = json.loads(lief.to_json(binary))
-            self.results.update(binary)
+            self.results.update(binary_dict)
         except:
             self.log('error', traceback.print_exc())
         return True

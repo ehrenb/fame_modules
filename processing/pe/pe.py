@@ -25,7 +25,7 @@ class PE(ProcessingModule):
         try:
             binary = lief.parse(target)
             binary_dict = json.loads(lief.to_json(binary))
-            self.results.update(binary)
+            self.results.update(binary_dict)
         except:
             self.log('error', traceback.print_exc())
         return True
