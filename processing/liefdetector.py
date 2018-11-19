@@ -22,8 +22,13 @@ class LiefDetector(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: lief")
 
     def each(self, target):
+        # Prevent circular detection
+        if 'type_resolved' in self.tags:
+            return False
+
         self.results = dict()
         if self.type_resolved(target):
+            self.add_tag('type_resolved')
             return True
         else:
             self.log('warn', 'Lief could not resolve abstract type')
@@ -51,3 +56,4 @@ class LiefDetector(ProcessingModule):
             
 
 
+ 
