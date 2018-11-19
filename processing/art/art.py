@@ -1,33 +1,18 @@
 import json
 import traceback
 
-try: 
-    import lief
-    HAVE_LIEF = True
-except ImportError:
-    HAVE_LIEF = False
-
 from fame.core.module import ProcessingModule
-from fame.modules.community.processing.LiefProcessingModule import LiefProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
 
-class ART(LiefProcessingModule):
+class ART(ProcessingModule):
     name = "art"
     description = "Perform static analysis on ART files"
     acts_on = "art"
 
     def initialize(self):
-        if not HAVE_LIEF:
-            raise ModuleInitializationError(self, "Missing dependency: lief")
-
+        pass
+        
     def each(self, target):
         self.results = dict()
-        try:
-            lief_analysis = self.lief_analysis(target)
-            self.results.update(lief_analysis)
-
-            ## Do other analyses here
-        except:
-            self.log('error', traceback.print_exc())
         return True
