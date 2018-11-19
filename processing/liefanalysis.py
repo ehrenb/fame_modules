@@ -39,20 +39,24 @@ class LiefAnalysis(ProcessingModule):
         return True
 
     def type_resolved(self, target):
+        new = None
         if lief.is_pe(target):
-            self.change_type(target, 'executable')
+            new = 'executable'
         elif lief.is_elf(target):
-            self.change_type(target, 'elf')
+            new = 'elf'
         elif lief.is_oat(target):
-            self.change_type(target, 'oat')
+            new = 'oat'
         elif lief.is_dex(target):
-            self.change_type(target, 'dex')
+            new = 'dex'
         elif lief.is_vdex(target):
-            self.change_type(target, 'vdex')
+            new = 'vdex'
         elif lief.is_art(target):
-            self.change_type(target, 'art')
-        else:
-            return False
-        return True
+            new = 'art'
+        if new:
+            self.change_type(target, new)
+            self.results['message'] = 'File type was changed to {}.'.format(new)
+            return True
+        return False
+            
 
 
