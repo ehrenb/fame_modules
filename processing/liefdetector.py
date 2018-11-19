@@ -1,4 +1,4 @@
-"""resolve abstract types for files using Lief, also if resolved, do some basic static analysis"""
+"""resolve abstract types for files using Lief"""
 
 import json
 import traceback
@@ -13,10 +13,9 @@ from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
 
-class LiefAnalysis(ProcessingModule):
-    name = 'liefanalysis'
-    description = 'Perform static analysis on elf, dex, executable, macho, oat, vdex, and art and change abstract type for new analysis'
-    # acts_on = '*'
+class LiefDetector(ProcessingModule):
+    name = 'liefdetector'
+    description = 'Use lief to detect & change abstract types of binaries for new analyses'
 
     def initialize(self):
         if not HAVE_LIEF:
