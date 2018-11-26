@@ -1,5 +1,6 @@
 import json
 import shlex
+import subprocess
 import traceback
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
