@@ -6,7 +6,7 @@ try:
     HAVE_LIEF = True
 except ImportError:
     HAVE_LIEF = False
-    
+
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
@@ -24,6 +24,10 @@ class ELF(ProcessingModule):
         self.results = dict()
         try:
             binary = lief.parse(target)
+
+            if lief.OAT.is_oat(binary):
+                self.change_type(target, 'oat')
+                
             binary_dict = json.loads(lief.to_json(binary), parse_int=str)
             self.results.update(binary_dict)
         except:

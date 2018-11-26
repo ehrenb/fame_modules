@@ -23,6 +23,9 @@ class VDEX(ProcessingModule):
     def each(self, target):
         self.results = dict()
         try:
+            if not lief.VDEX.is_vdex(target):
+                self.log('error', '{} is not a VDEX file'.format(target))
+                return False
             vdex = lief.VDEX.parse(target)
             vdex_dict = json.loads(lief.to_json(vdex), parse_int=str)
             self.results.update(vdex_dict)
