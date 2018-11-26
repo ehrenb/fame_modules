@@ -1,6 +1,5 @@
 import json
 import os
-import shlex
 import subprocess
 import traceback
 
@@ -12,7 +11,7 @@ from .apk_plugins import *
 
 
 try:
-    from androguard.misc import AnalyzeAPK, AnalyzeDex
+    from androguard.misc import AnalyzeAPK
     HAVE_ANDROGUARD = True
 except ImportError:
     HAVE_ANDROGUARD = False
@@ -23,17 +22,11 @@ try:
 except ImportError:
     HAVE_MAGIC = False
 
-try:
-    import apkid
-    HAVE_APKID = True
-except ImportError:
-    HAVE_APKID = False
-
 
 class APK(ProcessingModule):
     name = "apk"
     description = "Perform static analysis on APK/DEX files. Will also run static analysis modules trying to extract configuration from known Android malware."
-    acts_on = ["apk", "dex"]
+    acts_on = ["apk"]
 
     def _get_internal_classes(self, vm_analysis):
         results = []
@@ -55,15 +48,6 @@ class APK(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: androguard")
         if not HAVE_MAGIC:
             raise ModuleInitializationError(self, "Missing dependency: python-magic")
-        if not HAVE_APKID:
-            raise ModuleInitializationError(self, "Missing dependency: apkid")
-
-    def get_apkid(self, target):
-        cmd = shlex.split('apkid {} -j'.format(target))
-        out = subprocess.check_output(cmd)
-        out_dict = json.loads(out)
-        return out_dict
-
 
     def each(self, target):
         self.results = dict()
@@ -95,19 +79,14 @@ class APK(ProcessingModule):
                 self._store_internal_classes()
             except:
                 self.log('error',traceback.print_exc())
+
+
         except:
-            self.log('error', '[+] AnalyzeAPK failed, running AnalyzeDex')
             self.log('error', traceback.print_exc())
-            apk = None
-            vm, vm_analysis = AnalyzeDex(target)
-            self.results['dex'] = True
 
         # Then, run all the APK Plugins in order to see if this is a known malware
         for plugin in APKPlugin.__subclasses__():
             plugin = plugin(target, apk, vm, vm_analysis)
             plugin.apply(self)
-
-        apkid_dict = {'apkid': self.get_apkid(target)[target]}
-        self.results.update(apkid_dict)
 
         return True
