@@ -27,7 +27,11 @@ class ELF(ProcessingModule):
 
             if lief.OAT.is_oat(binary):
                 self.change_type(target, 'oat')
-                
+                self.results = {
+                'message': 'File type was changed to oat.'
+            }
+                return True
+
             binary_dict = json.loads(lief.to_json(binary), parse_int=str)
             self.results.update(binary_dict)
         except:
