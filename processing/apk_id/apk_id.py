@@ -26,7 +26,7 @@ class APK_ID(ProcessingModule):
 
         try:
             # APKiD packer/compiler detection
-            apkid_dict = {'apkid': self.get_apkid(target)[target]}
+            apkid_dict = {'apkid': self.get_apkid(target)}
             self.results.update(apkid_dict)
         except:
             self.log('error',traceback.print_exc()) 
