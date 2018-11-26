@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 source /fame/env/bin/activate && \
 git clone --recursive https://github.com/rednaga/yara-python-1 /tmp/yara-python && \
