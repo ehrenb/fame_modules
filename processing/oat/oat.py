@@ -55,9 +55,9 @@ class OAT(ProcessingModule):
 
             # add extracted dex files
             for idx,dex_file in enumerate(oat.dex_files):
-                tempdir = tempdir()
+                temp = tempdir()
                 fname = 'classes_{}.dex'.format(str(idx))
-                dex_filepath = os.path.join(tempdir, fname)
+                dex_filepath = os.path.join(temp, fname)
                 dex_file.save(dex_filepath)
                 if os.path.isfile(dex_filepath):
                     self.add_extracted_file(dex_filepath)
