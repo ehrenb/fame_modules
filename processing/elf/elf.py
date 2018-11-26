@@ -23,7 +23,7 @@ class ELF(ProcessingModule):
     def each(self, target):
         self.results = dict()
         try:
-            if lief.OAT.is_oat(binary):
+            if lief.OAT.is_oat(target):
                 self.change_type(target, 'oat')
                 self.results = {
                 'message': 'File type was changed to oat.'
