@@ -14,7 +14,7 @@ except ImportError:
 class APK_ID(ProcessingModule):
     name = "apk_id"
     description = "Use APKiD to detecte compiler and packers for dex and apk files"
-    acts_on ["apk", "dex"]
+    acts_on = ["apk", "dex"]
 
     def initialize(self):
         if not HAVE_APKID:
