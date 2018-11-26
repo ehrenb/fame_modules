@@ -42,7 +42,7 @@ class PE(ProcessingModule):
             # named after date downloaded & added to FAME
             signatures = peutils.SignatureDatabase('peid_sigs_11262018.txt')
             matches = signatures.match(target, ep_only = True)
-            packer_dict {'packers': matches}
+            packer_dict = {'packers': matches}
             self.results.update(packer_dict)
 
         except:
