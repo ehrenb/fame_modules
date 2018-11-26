@@ -49,7 +49,7 @@ class DEX(ProcessingModule):
             # lief
             binary = lief.DEX.parse(target)
             lief_dict = {'lief': json.loads(lief.to_json(binary), parse_int=str)}
-            self.results.update(binary_dict)
+            self.results.update(lief_dict)
 
             # androguard
             sha256, vm, vm_analysis = AnalyzeDex(target)
