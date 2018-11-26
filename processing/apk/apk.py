@@ -1,5 +1,7 @@
 import json
 import os
+import shlex
+import subprocess
 import traceback
 
 from fame.common.utils import tempdir
@@ -20,6 +22,12 @@ try:
     HAVE_MAGIC = True
 except ImportError:
     HAVE_MAGIC = False
+
+try:
+    import apkid
+    HAVE_APKID = True
+except ImportError:
+    HAVE_APKID = False
 
 
 class APK(ProcessingModule):
@@ -47,6 +55,15 @@ class APK(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: androguard")
         if not HAVE_MAGIC:
             raise ModuleInitializationError(self, "Missing dependency: python-magic")
+        if not HAVE_APKID:
+            raise ModuleInitializationError(self, "Missing dependency: apkid")
+
+    def get_apkid(self, target):
+        cmd = shlex.split('apkid {} -j'.format(target))
+        out = subprocess.check_output(cmd)
+        out_dict = json.loads(out)
+        return out_dict
+
 
     def each(self, target):
         self.results = dict()
@@ -89,5 +106,8 @@ class APK(ProcessingModule):
         for plugin in APKPlugin.__subclasses__():
             plugin = plugin(target, apk, vm, vm_analysis)
             plugin.apply(self)
+
+        apkid_dict = {'apkid': self.get_apkid(target)[target]}
+        self.results.update(apkid_dict)
 
         return True
