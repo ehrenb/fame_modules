@@ -1,4 +1,2 @@
 androguard
-yara-python
-pyelftools
 python-magic
