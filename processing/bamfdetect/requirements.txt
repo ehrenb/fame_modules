@@ -1,5 +1,4 @@
 pefile
-yara-python
 rarfile
 pycrypto
 pbkdf2
