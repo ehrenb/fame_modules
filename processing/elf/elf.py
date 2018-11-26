@@ -23,15 +23,13 @@ class ELF(ProcessingModule):
     def each(self, target):
         self.results = dict()
         try:
-            binary = lief.parse(target)
-
             if lief.OAT.is_oat(binary):
                 self.change_type(target, 'oat')
                 self.results = {
                 'message': 'File type was changed to oat.'
             }
                 return True
-
+            binary = lief.parse(target)
             binary_dict = json.loads(lief.to_json(binary), parse_int=str)
             self.results.update(binary_dict)
         except:
