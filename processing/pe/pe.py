@@ -18,7 +18,7 @@ except ImportError:
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
-PE_ID_SIGS_FILE = os.path.join(os.getcwd(),'peid_sigs_11262018.txt')
+PE_ID_SIGS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),'peid_sigs_11262018.txt')
 
 class PE(ProcessingModule):
     name = "pe"
