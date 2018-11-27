@@ -33,7 +33,7 @@ class APK_ID(ProcessingModule):
         return True
 
     def get_apkid(self, target):
-        cmd = shlex.split('apkid {} -j'.format(target))
+        cmd = shlex.split('apkid {} -q -j'.format(target))
         out = subprocess.check_output(cmd)
         out_dict = json.loads(out)
         return out_dict
