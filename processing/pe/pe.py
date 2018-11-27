@@ -40,7 +40,7 @@ class PE(ProcessingModule):
             # packet detect using pefile (PEiD sigs)
             # sig file obtained here https://github.com/erocarrera/pefile/blob/wiki/PEiDSignatures.md
             # named after date downloaded & added to FAME
-            signatures = peutils.SignatureDatabase('peid_sigs_11262018.txt')
+            signatures = peutils.SignatureDatabase('./peid_sigs_11262018.txt')
             matches = signatures.match(target, ep_only = True)
             packer_dict = {'packers': matches}
             self.results.update(packer_dict)
