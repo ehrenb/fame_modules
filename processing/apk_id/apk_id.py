@@ -29,11 +29,12 @@ class APK_ID(ProcessingModule):
             apkid_dict = {'apkid': self.get_apkid(target)}
             self.results.update(apkid_dict)
         except:
-            self.log('error',traceback.print_exc()) 
+            self.log('error',traceback.print_exc())
         return True
 
     def get_apkid(self, target):
         cmd = shlex.split('apkid {} -q -j'.format(target))
         out = subprocess.check_output(cmd)
+        self.log('debug', out)
         out_dict = json.loads(out)
         return out_dict
