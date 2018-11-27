@@ -10,6 +10,7 @@ except ImportError:
 
 try: 
     import peutils
+    import pefile
     HAVE_PEFILE = True
 except ImportError:
     HAVE_PEFILE = False
@@ -43,7 +44,8 @@ class PE(ProcessingModule):
             # sig file obtained here https://github.com/erocarrera/pefile/blob/wiki/PEiDSignatures.md
             # named after date downloaded & added to FAME
             signatures = peutils.SignatureDatabase(PE_ID_SIGS_FILE)
-            matches = signatures.match(target, ep_only = True)
+            pe = pefile.PE(target, fast_load=True)
+            matches = signatures.match(pe, ep_only = True)
             packer_dict = {'packers': matches}
             self.results.update(packer_dict)
 
