@@ -8,7 +8,7 @@ except ImportError:
     HAVE_LIEF = False
 
 try: 
-    import peutil
+    import peutils
     HAVE_PEFILE = True
 except ImportError:
     HAVE_PEFILE = False
