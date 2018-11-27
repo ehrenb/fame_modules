@@ -17,6 +17,7 @@ except ImportError:
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
+PE_ID_SIGS_FILE = os.path.join(os.getcwd(),'peid_sigs_11262018.txt')
 
 class PE(ProcessingModule):
     name = "pe"
@@ -40,7 +41,7 @@ class PE(ProcessingModule):
             # packet detect using pefile (PEiD sigs)
             # sig file obtained here https://github.com/erocarrera/pefile/blob/wiki/PEiDSignatures.md
             # named after date downloaded & added to FAME
-            signatures = peutils.SignatureDatabase('./peid_sigs_11262018.txt')
+            signatures = peutils.SignatureDatabase(PE_ID_SIGS_FILE)
             matches = signatures.match(target, ep_only = True)
             packer_dict = {'packers': matches}
             self.results.update(packer_dict)
