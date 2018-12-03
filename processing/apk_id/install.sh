@@ -2,7 +2,7 @@
 
 # yara-python
 if [ ! -d "yara-python" ]; then
-  mkdir git clone --recursive https://github.com/rednaga/yara-python-1 yara-python
+  git clone --recursive https://github.com/rednaga/yara-python-1 yara-python
 fi
 
 cd yara-python &&\
