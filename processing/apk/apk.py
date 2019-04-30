@@ -52,6 +52,7 @@ class APK(ProcessingModule):
     def each(self, target):
         self.results = dict()
 
+
         try:
             apk, vm, vm_analysis = AnalyzeAPK(target)
 
@@ -80,13 +81,14 @@ class APK(ProcessingModule):
             except:
                 self.log('error',traceback.print_exc())
 
+            # Then, run all the APK Plugins in order to see if this is a known malware
+            for plugin in APKPlugin.__subclasses__():
+                plugin = plugin(target, apk, vm, vm_analysis)
+                plugin.apply(self)
 
         except:
             self.log('error', traceback.print_exc())
 
-        # Then, run all the APK Plugins in order to see if this is a known malware
-        for plugin in APKPlugin.__subclasses__():
-            plugin = plugin(target, apk, vm, vm_analysis)
-            plugin.apply(self)
+
 
         return True
