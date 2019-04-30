@@ -42,4 +42,8 @@ class APKFindURLS(ProcessingModule):
                 if match:
                     self.results['urls'].append(match.group(0))
         self.results['urls'] = list(set(self.results['urls']))
+
+        # Add observables
+        for url in self.results['urls']:
+            self.add_ioc(url)
         return True
