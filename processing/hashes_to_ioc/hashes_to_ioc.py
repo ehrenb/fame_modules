@@ -12,11 +12,13 @@ def get_hash(f_path, mode):
     digest = h.hexdigest()
     return digest
 
-class HahesToIOC(ProcessingModule):
+class HashesToIOC(ProcessingModule):
     name = "hashes_to_ioc"
     description = "Creates IOCs out of various hashes of the sample, sending them to Threat Intelligence modules if enabled"
 
     def each(self, target):
+        self.results = dict()
         for mode in hash_algorithms:
             h = get_hash(target, mode)
             self.add_ioc(h)
+            self.results.update({mode:h})
