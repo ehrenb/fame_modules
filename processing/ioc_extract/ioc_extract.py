@@ -42,9 +42,9 @@ class IOCExtract(ProcessingModule):
         target_strings = ' '.join(list(_strings(target)))
 
         # extract and add iocs
-        self.results['iocs'] = iocextract.extract_iocs(target_strings)
+        self.results['iocs'] = list(iocextract.extract_iocs(target_strings))
 
         # Add observables
-        for url in self.results['iocs']:
-            self.add_ioc(url)
+        for ioc in self.results['iocs']:
+            self.add_ioc(ioc)
         return True
