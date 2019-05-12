@@ -12,7 +12,7 @@ except ImportError:
     HAVE_IOCEXTRACT = False
 
 
-def strings(filename, min=4):
+def _strings(filename, min=4):
     # with open(filename, errors="ignore") as f:  # Python 3.x
     with open(filename, "rb") as f:           # Python 2.x
         result = ""
@@ -39,10 +39,10 @@ class IOCExtract(ProcessingModule):
         self.results = dict()
 
         # combine strings into one space-separated string
-        strings = ' '.join(list(strings(target)))
+        target_strings = ' '.join(list(_strings(target)))
 
         # extract and add iocs
-        self.results['iocs'] = iocextract.extract_iocs(strings)
+        self.results['iocs'] = iocextract.extract_iocs(target_strings)
 
         # Add observables
         for url in self.results['iocs']:
