@@ -1,0 +1,13 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Extracted IOCs</h4>
+            <p class="category">Detailed Results</p>
+        </div>
+        <div class="content">
+        {% for ioc in results.iocs %}
+            <div class="labeled-content">{{ioc}}</div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
