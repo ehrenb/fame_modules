@@ -50,8 +50,19 @@ class APK(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: python-magic")
 
     def each(self, target):
-        self.results = dict()
-
+        self.results = dict(name=None,
+                            files=[],
+                            package=None,
+                            permissions=[],
+                            declared_permissions=[],
+                            main_activity=None,
+                            activities=[],
+                            receivers=[],
+                            services=[],
+                            manifest=None,
+                            libraries=[],
+                            main_activity_content=None,
+                            internal_classes=[])
 
         try:
             apk, vm, vm_analysis = AnalyzeAPK(target)
