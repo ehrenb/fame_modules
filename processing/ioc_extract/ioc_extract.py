@@ -1,5 +1,3 @@
-import json
-import re
 import string
 
 from fame.core.module import ProcessingModule
@@ -10,6 +8,8 @@ try:
     HAVE_IOCEXTRACT = True
 except ImportError:
     HAVE_IOCEXTRACT = False
+
+blacklist = ['127.0.0.1', '8.8.8.8']
 
 
 def _strings(filename, min=4):
@@ -29,7 +29,6 @@ def _strings(filename, min=4):
 class IOCExtract(ProcessingModule):
     name = "ioc_extract"
     description = "Search for IOCs using iocextract"
-    # acts_on = []
 
     def initialize(self):
         if not HAVE_IOCEXTRACT:
@@ -38,13 +37,24 @@ class IOCExtract(ProcessingModule):
     def each(self, target):
         self.results = dict()
 
+
+
         # combine strings into one space-separated string
         target_strings = ' '.join(list(_strings(target)))
 
         # extract and add iocs
-        self.results['iocs'] = list(iocextract.extract_iocs(target_strings))
+        iocs = []
+        iocs.extend(list(iocextract.extract_ips(target_strings)))
+        iocs.extend(list(iocextract.extract_emails(target_strings)))
+        iocs.extend(list(iocextract.extract_hashes(target_strings)))
+        iocs.extend(list(iocextract.extract_yara_rules(target_strings)))
+        # iocs.extend(list(iocextract.extract_urls(target_strings)))
+        iocs[:] = (value for value in iocs if value not in blacklist)
+
+        # extract and add iocs
+        self.results['iocs'] = iocs
 
         # Add observables
         for ioc in self.results['iocs']:
-            self.add_ioc(ioc)
+            self.add_ioc(ioc)# TODO: tag
         return True
