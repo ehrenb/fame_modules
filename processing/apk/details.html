@@ -25,7 +25,7 @@
                     <th>Label</th>
                     <th>Description</th>
                 </tr>
-                {% for permission_name, permission in results.permissions.iteritems() %}
+                {% for permission_name, permission in results.permissions.items() %}
                     <tr>
                         <td><div>{{permission_name}}</div></td>
                         <td><div>{{permission[0]}}</div></td>
