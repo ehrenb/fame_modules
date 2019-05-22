@@ -25,12 +25,14 @@
                     <th>Label</th>
                     <th>Description</th>
                 </tr>
-                {% for permission_name, permission in results.permissions.items() %}
+                <!-- {% for permission_name, permission in results.permissions %} -->
+                {% for permission in results.permissions %}
                     <tr>
-                        <td><div>{{permission_name}}</div></td>
+                        {{permission}}
+                       <!--  <td><div>{{permission_name}}</div></td>
                         <td><div>{{permission[0]}}</div></td>
                         <td><div>{{permission[1]}}</div></td>
-                        <td><div>{{permission[2]}}</div></td>
+                        --> <td><div>{{permission[2]}}</div></td>
                     </tr>
                 {% endfor %}
             </table>
